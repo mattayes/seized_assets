@@ -5,6 +5,9 @@ library(jsonlite)
 library(data.table)
 library(tidyr)
 library(dplyr)
+library(ggplot2)
+library(scales)
+library(gridExtra)
 
 ## Read data from Washington Post
 wapo <- "http://www.washingtonpost.com/wp-srv/special/investigative/asset-seizures/data/all.json"
