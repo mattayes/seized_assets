@@ -27,7 +27,11 @@ oregon <- wapo_flat %>%
     filter(st == "OR") %>%
     gather(category, value, -st, -stn, -aid, -aname) %>%
     select(aid, category, value, aname) %>%
-    mutate(aid = factor(aid))
-
-## Write to disk
-write.csv(oregon, file = "./oregon.csv", row.names = FALSE)
+    mutate(aid = factor(aid),
+           aname = factor(aname),
+           catname = factor(category, labels = c("Weapons", "Travel/Taining", "Other",
+             "Communications/Computers", "Building Improvements",
+             "Electronic Surveillance", "Information/Rewards",
+             "Salary/Overtime", "Community Programs")),
+             catrank = reorder(factor(paste(aid, category)), rank(-value))
+    )
