@@ -126,11 +126,22 @@ top5 <- oregon %>%
     mutate(rank = min_rank(desc(value))) %>%
     filter(rank <= 5 & value >= 0) %>%
     arrange(category, desc(value))
-gg <- ggplot(top5, aes(catrank, value)) +
+ggplot(top5, aes(catrank, value)) +
     geom_bar(stat = "identity", aes(fill = category)) +
     scale_y_continuous(labels = dollar) +
     scale_x_discrete(breaks = top5$catrank, labels = top5$aname) +
     facet_wrap(~ catname, scales = "free", ncol = 1) +
     theme(legend.position = "none") +
     labs(x = "", y = "", title = "Top Agencies by Spending Category")
-gg
+
+## Sort aname by type
+test <- oregon
+test <- mutate(test, level = "",
+               name = "")
+city <- grep("Police Department", test$aname)
+test$level[city] <- "city"
+test$name <- gsub("(.*) Police Department", "\\1", test$aname)
+
+county <- grep("County", test$aname)
+test$level[county] <- "county"
+unique(filter(test, level == "")$aname)
